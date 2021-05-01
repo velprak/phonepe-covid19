@@ -1,0 +1,123 @@
+{
+  "apiVersion" : "v1",
+  "kind" : "Template",
+  "metadata" : {
+    "annotations" : {
+      "fabric8.covid19/summary" : "Simple embedded vert.x fatjar",
+      "description" : "# Vert.x Simples QuickStart\r\n\r\nThis quickstart run an embedded vert.x HTTP server in a standalone Java application.\r\n\r\nThis example is implemented using very simple Java code.\r\n\r\nThis example is printing *Hello World! from pod HOSTNAME* as reply message when calling the HTTP server, which runs on port 8080.\r\n\r\n\r\n### Building\r\n\r\nNavigate to the $IPAAS_QUICKSTART/quickstart/vertx/simplest/ folder and the example can be built with\r\n\r\n    mvn clean install\r\n\r\n\r\n### Running the example locally\r\n\r\nThe example can be run locally using the following Maven goal:\r\n\r\n    mvn exec:java\r\n\r\nYou can then call the service from a webbrowser using `http://localhost:8080`\r\n\r\n\r\n### Running the example in fabric8\r\n\r\nIt is assumed a running Kubernetes platform is already running. If not you can find details how to [get started](http://fabric8.io/guide/getStarted/index.html).\r\n\r\nThe example can be built and deployed using a single goal:\r\n\r\n    mvn -Pf8-local-deploy\r\n\r\nWhen the example runs in fabric8, you can use the OpenShift client tool to inspect the status\r\n\r\nTo list all the running pods:\r\n\r\n    oc get pods\r\n\r\n### Access services using a web browser\r\n\r\nWhen the application is running, you can use a web browser to access the service. Assuming that you\r\nhave a [Vagrant setup](http://fabric8.io/guide/getStarted/vagrant.html) you can access the service with\r\n`http://vertx-simplest-default.vagrant.f8/`.\r\n\r\nNotice: As it depends on your OpenShift setup, the hostname (route) might vary. Verify with `oc get routes` which\r\nhostname is valid for you.\r\n\r\nYou can also use the fabric8 [web console](http://fabric8.io/guide/console.html) to manage the\r\nrunning pods, and view logs and much more.\r\n\r\n### More details\r\n\r\nYou can find more details about running this [quickstart](http://fabric8.io/guide/quickstarts/running.html) on the website. This also includes instructions how to change the Docker image user and registry.\r\n\r\n",
+      "fabric8.covid19/iconUrl" : "img/icons/vertx.svg"
+    },
+    "labels" : { },
+    "name" : "covid19"
+  },
+  "objects" : [ {
+    "apiVersion" : "v1",
+    "kind" : "Service",
+    "metadata" : {
+      "annotations" : {
+        "fabric8.io/iconUrl" : "img/icons/vertx.svg"
+      },
+      "labels" : {
+        "provider" : "fabric8",
+        "project" : "covid19",
+        "version" : "1.0-SNAPSHOT",
+        "group" : "quickstarts"
+      },
+      "name" : "covid19"
+    },
+    "spec" : {
+      "deprecatedPublicIPs" : [ ],
+      "externalIPs" : [ ],
+      "ports" : [ {
+        "port" : 80,
+        "protocol" : "TCP",
+        "targetPort" : 8080
+      } ],
+      "selector" : {
+        "project" : "covid19",
+        "provider" : "fabric8",
+        "group" : "quickstarts"
+      },
+      "type" : "LoadBalancer"
+    }
+  }, {
+    "apiVersion" : "v1",
+    "kind" : "ReplicationController",
+    "metadata" : {
+      "annotations" : {
+        "fabric8.io/iconUrl" : "img/icons/vertx.svg",
+        "fabric8.io/git-branch" : "prasanna",
+        "fabric8.io/git-commit" : "0882bdf2472bb704b7a5b5cd44c80382d00da562"
+      },
+      "labels" : {
+        "provider" : "fabric8",
+        "project" : "covid19",
+        "version" : "1.0-SNAPSHOT",
+        "group" : "quickstarts"
+      },
+      "name" : "covid19"
+    },
+    "spec" : {
+      "replicas" : 1,
+      "selector" : {
+        "provider" : "fabric8",
+        "project" : "covid19",
+        "version" : "1.0-SNAPSHOT",
+        "group" : "quickstarts"
+      },
+      "template" : {
+        "metadata" : {
+          "annotations" : { },
+          "labels" : {
+            "provider" : "fabric8",
+            "project" : "covid19",
+            "version" : "1.0-SNAPSHOT",
+            "group" : "quickstarts"
+          }
+        },
+        "spec" : {
+          "containers" : [ {
+            "args" : [ ],
+            "command" : [ ],
+            "env" : [ {
+              "name" : "KUBERNETES_NAMESPACE",
+              "valueFrom" : {
+                "fieldRef" : {
+                  "fieldPath" : "metadata.namespace"
+                }
+              }
+            } ],
+            "image" : "fabric8/covid19:1.0-SNAPSHOT",
+            "name" : "covid19",
+            "ports" : [ ],
+            "readinessProbe" : {
+              "httpGet" : {
+                "httpHeaders" : [ ],
+                "path" : "/",
+                "port" : 8080
+              },
+              "initialDelaySeconds" : 5,
+              "timeoutSeconds" : 30
+            },
+            "resources" : {
+              "limits" : {
+                "cpu" : "0",
+                "memory" : "0"
+              },
+              "requests" : {
+                "cpu" : "0",
+                "memory" : "0"
+              }
+            },
+            "securityContext" : { },
+            "volumeMounts" : [ ]
+          } ],
+          "imagePullSecrets" : [ ],
+          "nodeSelector" : { },
+          "volumes" : [ ]
+        }
+      }
+    }
+  } ],
+  "parameters" : [ ]
+}

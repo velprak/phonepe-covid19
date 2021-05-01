@@ -1,0 +1,1 @@
+Simple embedded vert.x fatjar
